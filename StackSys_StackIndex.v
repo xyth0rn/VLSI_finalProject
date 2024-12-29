@@ -1,6 +1,6 @@
 // stack system
 // stack is used for storing return addresses and temporary data. Stack Index tracks the top of the stack, enabling push and pop operations.
-module stackSys (pcx, clk, push, sp, stk0);
+module StackSys (pcx, clk, push, sp, stk0);
     input [11:0] pcx;
     input clk, push;    // push is decoder enable
     input [11:0] sp;    // decoder input from stack index
@@ -38,7 +38,7 @@ module stackSys (pcx, clk, push, sp, stk0);
     end
 endmodule
 
-module stackIndex (clk, push, pop, sp);
+module StackIndex (clk, push, pop, sp);
     input  clk;     // clock
     input  push;    // push enable
     input  pop;     // pop enable
