@@ -564,7 +564,6 @@ endmodule
 ![image](https://github.com/user-attachments/assets/2e1bafbc-ab6e-4440-a034-9461f132b1c6)
 
 #### Source Code
-
 ```v
 // DataSelecter (register)
 // Routes data between the ALU and other components, acting as a multiplexer.
