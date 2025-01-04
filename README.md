@@ -1,4 +1,4 @@
-# VLSI_finalProject
+![image](https://github.com/user-attachments/assets/d894ad90-698e-420e-8e36-1bbc25ee4e3c)# VLSI_finalProject
 ## Project Overview
 Full microcomputer CPU architecture diagram
 ![image](https://github.com/user-attachments/assets/2d0383ae-9fd9-4da5-883c-339e9faa62c8)
@@ -351,12 +351,13 @@ endmodule
 
 ### GPT_Stack_System.v
 Prompt:
-```
-Base on the given truth table and the structure of this system, please generate its verilog code
-```
-Result 1: Passed first try
-![image](https://github.com/user-attachments/assets/ae276894-de80-40a6-b6ee-1223e22cf0b6)
+![image](https://github.com/user-attachments/assets/01ccee98-897a-4906-a42d-e60fe70d77f3)
+![image](https://github.com/user-attachments/assets/20180472-0867-42ae-8d23-903098ddd7e0)
 
+Result 1: Passed first try
+![image](https://github.com/user-attachments/assets/f3ec9e30-8667-4aec-b618-f587022e94bf)
+![image](https://github.com/user-attachments/assets/ae276894-de80-40a6-b6ee-1223e22cf0b6)
+然後就對了
 ```v
 module GPT_StackSystem (
     input [11:0] Pcx,     // Data input
