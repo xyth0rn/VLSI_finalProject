@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/d894ad90-698e-420e-8e36-1bbc25ee4e3c)# VLSI_finalProject
+# VLSI_finalProject
 ## Project Overview
 Full microcomputer CPU architecture diagram
 ![image](https://github.com/user-attachments/assets/2d0383ae-9fd9-4da5-883c-339e9faa62c8)
