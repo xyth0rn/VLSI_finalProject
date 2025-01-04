@@ -245,7 +245,111 @@ module GPT_DataSelect_tb;
 
 endmodule
 ```
-### Stack system
+
+### GPT_AddrCtrl.v
+#### Prompt
+```
+for a microcomputer architecture, write a verilog code address control system submodule GPT_AddrCtrl.v that has the structure
+and truth table of the following images. Also write a testbench GPT_AddrCtrl_tb.v for this submodule.
+```
+![image](https://github.com/user-attachments/assets/ca63657e-c050-4139-9080-ec6c48dd1f9a)
+
+#### Result
+```v
+module GPT_AddrCtrl (
+    input wire [3:0] D0,     // 4-bit input D0
+    input wire [3:0] D1,     // 4-bit input D1
+    input wire ctl,          // 1-bit control input
+    input wire clk,          // clock signal
+    output reg [3:0] addr    // 4-bit output addr
+);
+
+    // Intermediate register IR1
+    reg [3:0] IR1;
+
+    // On positive clock edge, update IR1 and addr
+    always @(posedge clk) begin
+        // Multiplexer logic for IR1
+        if (ctl == 0) begin
+            IR1 <= D0;
+        end else begin
+            IR1 <= D1;
+        end
+
+        // Assign IR1 to addr (IR2 behavior)
+        addr <= IR1;
+    end
+endmodule
+
+// testbench
+module GPT_AddrCtrl_tb;
+
+    // Inputs
+    reg [3:0] D0;
+    reg [3:0] D1;
+    reg ctl;
+    reg clk;
+
+    // Outputs
+    wire [3:0] addr;
+
+    // Instantiate the Unit Under Test (UUT)
+    GPT_AddrCtrl uut (
+        .D0(D0),
+        .D1(D1),
+        .ctl(ctl),
+        .clk(clk),
+        .addr(addr)
+    );
+
+    // Clock generation
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk; // 10ns clock period
+    end
+
+    // Test sequence
+    initial begin
+        // Initialize inputs
+        D0 = 4'b0000;
+        D1 = 4'b0000;
+        ctl = 0;
+
+        // Wait for global reset
+        #10;
+
+        // Test case 1: ctl = 0, IR1 should take D0
+        D0 = 4'b1010;
+        ctl = 0;
+        #10;
+        $display("ctl=0, IR1=%b, addr=%b", uut.IR1, addr);
+
+        // Test case 2: ctl = 1, IR1 should take D1
+        D1 = 4'b1100;
+        ctl = 1;
+        #10;
+        $display("ctl=1, IR1=%b, addr=%b", uut.IR1, addr);
+
+        // Test case 3: Change D0 and D1 while ctl = 0
+        D0 = 4'b0110;
+        ctl = 0;
+        #10;
+        $display("ctl=0, IR1=%b, addr=%b", uut.IR1, addr);
+
+        // Test case 4: Change ctl to 1, addr should follow D1
+        D1 = 4'b1111;
+        ctl = 1;
+        #10;
+        $display("ctl=1, IR1=%b, addr=%b", uut.IR1, addr);
+
+        // End of test
+        $stop;
+    end
+endmodule
+```
+#### Simulation
+
+### GPT_Stack_System.v
 Prompt:
 ```
 Base on the given truth table and the structure of this system, please generate its verilog code
@@ -366,7 +470,7 @@ Although this final project is intended for us to learn the verilog language thr
 ![image](https://github.com/user-attachments/assets/bda0a8ef-5e21-4308-b117-7cb30bf3334c)
 ![image](https://github.com/user-attachments/assets/b4986a3b-46bf-4083-8ce4-cb856f1cdee8)
 
-### Source Code
+#### Source Code
 ```v
 // IO DataReg_addr
 // Manages data exchange with external devices, storing the address or data being processed.
@@ -459,7 +563,7 @@ endmodule
 #### Submodule Truthtable
 ![image](https://github.com/user-attachments/assets/2e1bafbc-ab6e-4440-a034-9461f132b1c6)
 
-### Source Code
+#### Source Code
 
 ```v
 // DataSelecter (register)
@@ -490,7 +594,7 @@ endmodule
 #### Submodule Truthtable
 ![image](https://github.com/user-attachments/assets/e030016d-eb71-4203-96dc-715705f3ea88)
 
-### Source Code
+#### Source Code
 ```v
 // Address control system
 // Handles address management for memory and I/O operations. (align timing issue using ir1 ir2)
@@ -525,7 +629,7 @@ endmodule
 ![image](https://github.com/user-attachments/assets/e43a7865-b468-4d7f-a301-030674cbbe2b)
 ![image](https://github.com/user-attachments/assets/28c4ba18-8160-40d5-bf98-420368589b29)
 
-### Source Code
+#### Source Code
 ```v
 // stack system
 // stack is used for storing return addresses and temporary data.
@@ -601,7 +705,7 @@ Program Counter 2
 ![image](https://github.com/user-attachments/assets/0b161ca9-4bd7-48dd-bacd-d6dc58314c33)
 ![image](https://github.com/user-attachments/assets/44dce9bc-f450-4326-ba50-874eef1af144)
 
-### Source Code
+#### Source Code
 ```v
 // program counter
 module ProgramCounter1 (clk, jump, A1, PCcounter, PCadd);
@@ -652,7 +756,7 @@ endmodule
 #### Submodule Truthtable
 ![image](https://github.com/user-attachments/assets/36963ccf-81d4-406e-a5be-fc6c806c9c68)
 
-### Source Code
+#### Source Code
 ```v
 module ConditionCodeSystem (cont, aluo, tcnd);
     input [3:0] cont;   // instruction control line
@@ -685,7 +789,7 @@ Control System 2
 #### Submodule Truthtable
 ![image](https://github.com/user-attachments/assets/0b07b666-a255-45ee-8626-95d108c7cdfe)
 
-### Source Code
+#### Source Code
 ```v
 module ControlSystem1 (clk, cont, jump2, jupm1, ret1, push1, wen1);
     input  clk;
