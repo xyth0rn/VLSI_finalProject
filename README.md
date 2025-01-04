@@ -27,6 +27,9 @@ adjust the verilog code so that the module has the structure and output truth ta
 ![image](https://github.com/user-attachments/assets/6cbf334f-69ed-4ae4-aa51-5a50ea2478e1)
 
 Result:
+![image](https://github.com/user-attachments/assets/cbde9a0b-d612-4579-885f-530cea7c0de5)
+
+
 ```v
 // Verilog Code for Data Register with Address and Tristate Gate
 
