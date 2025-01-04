@@ -527,6 +527,15 @@ module top_module ();
     end
 endmodule
 ```
+### GPT_Control_System_1.v
+Prompt:
+<img width="1026" alt="image" src="https://github.com/user-attachments/assets/853bb2d4-9b60-4b14-9098-d213d5045026" />
+
+Result 1:
+直接pass
+![image](https://github.com/user-attachments/assets/beab3276-8460-4bd3-82c5-965012f67734)
+
+```v
 
 ## Homemade
 Although this final project is intended for us to learn the verilog language through using ChatGPT, but I have learned a little bit of verilog previously during the course Digital Lab in the spring semester of year 2024, so I decided to take on the challenge of coding this final project on my own. For each submodule, I first inspected the structure to determine the IO wires, internal wires, and internal registers required. After initiallizing the submodule, I then write the functions according to the structure diagrams and the truthtable.
