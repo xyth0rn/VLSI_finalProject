@@ -354,9 +354,13 @@ Prompt:
 ![image](https://github.com/user-attachments/assets/01ccee98-897a-4906-a42d-e60fe70d77f3)
 ![image](https://github.com/user-attachments/assets/20180472-0867-42ae-8d23-903098ddd7e0)
 
-Result 1: Passed first try
+Result: 
 ![image](https://github.com/user-attachments/assets/f3ec9e30-8667-4aec-b618-f587022e94bf)
-![image](https://github.com/user-attachments/assets/ae276894-de80-40a6-b6ee-1223e22cf0b6)
+
+<img width="1030" alt="image" src="https://github.com/user-attachments/assets/d324c5b3-ea9f-439e-96a8-7f0acf6220b1" />
+
+![image](https://github.com/user-attachments/assets/c842b443-a043-48ff-842c-8a153393075f)
+
 然後就對了
 ```v
 module GPT_StackSystem (
@@ -673,6 +677,8 @@ endmodule
 
 #### Submodule Truthtable
 ![image](https://github.com/user-attachments/assets/e030016d-eb71-4203-96dc-715705f3ea88)
+
+Result
 
 #### Source Code
 ```v
