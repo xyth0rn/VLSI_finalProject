@@ -363,32 +363,30 @@ Result:
 
 然後就對了
 ```v
-module GPT_StackSystem (
-    input [11:0] Pcx,     // Data input
-    input Clk,            // Clock
-    input Push,           // Push enable
-    input Pop,            // Pop enable
-    output reg [11:0] stk0 // Stack output
+module GPT_stack_system (
+    input wire [11:0] Pcx,  // 12-bit data input
+    input wire Clk,         // Clock
+    input wire Push,        // Push enable
+    input wire [1:0] Sp,    // Stack pointer (2-bit)
+    output reg [11:0] stk0  // Stack output
 );
-    reg [11:0] Q0, Q1, Q2, Q3; // Stack registers
-    reg [1:0] Sp;             // Stack pointer (2 bits to select 4 slots)
+
+    // Stack registers
+    reg [11:0] Q0, Q1, Q2, Q3;
 
     always @(posedge Clk) begin
         if (Push) begin
+            // Write to stack based on stack pointer
             case (Sp)
                 2'b00: Q0 <= Pcx;
                 2'b01: Q1 <= Pcx;
                 2'b10: Q2 <= Pcx;
                 2'b11: Q3 <= Pcx;
             endcase
-            Sp <= Sp - 1; // Update stack pointer on push
-        end
-        else if (Pop) begin
-            Sp <= Sp + 1; // Update stack pointer on pop
         end
     end
 
-    // Multiplexer for stack output
+    // Multiplexer to output the value based on Sp
     always @(*) begin
         case (Sp)
             2'b00: stk0 = Q0;
@@ -398,67 +396,89 @@ module GPT_StackSystem (
         endcase
     end
 
-    `probe(Pcx);   // Probe input data
-    `probe(Clk);   // Probe clock
-    `probe(Push);  // Probe push signal
-    `probe(Pop);   // Probe pop signal
-    `probe(stk0);  // Probe stack output
-    `probe(Sp);    // Probe stack pointer
-    `probe(Q0);    // Probe stack register Q0
-    `probe(Q1);    // Probe stack register Q1
-    `probe(Q2);    // Probe stack register Q2
-    `probe(Q3);    // Probe stack register Q3
+    `probe(Pcx);  // Probe data input
+    `probe(Clk);  // Probe clock
+    `probe(Push); // Probe push enable
+    `probe(Sp);   // Probe stack pointer
+    `probe(stk0); // Probe stack output
+    `probe(Q0);   // Probe Q0 register
+    `probe(Q1);   // Probe Q1 register
+    `probe(Q2);   // Probe Q2 register
+    `probe(Q3);   // Probe Q3 register
+
 endmodule
 
-module GPT_StackSystem ();
-    reg clk = 0; // Clock signal
-    always #5 clk = ~clk; // Create clock with period=10
 
-    initial `probe_start; // Start the timing diagram
-
-    `probe(clk); // Probe clock signal
-
+module top_module ();
     // Testbench signals
     reg [11:0] Pcx;
-    reg Push, Pop;
+    reg Clk;
+    reg Push;
+    reg [1:0] Sp;
     wire [11:0] stk0;
 
     // Instantiate StackSystem
-    GPT_StackSystem uut (
+    GPT_stack_system uut (
         .Pcx(Pcx),
-        .Clk(clk),
+        .Clk(Clk),
         .Push(Push),
-        .Pop(Pop),
+        .Sp(Sp),
         .stk0(stk0)
     );
 
+    // Clock generation
     initial begin
+        Clk = 0;
+        forever #5 Clk = ~Clk; // Clock period = 10 time units
+    end
+
+    // Test sequence
+    initial begin
+        `probe_start; // Start the timing diagram
+
         // Initialize signals
         Pcx = 12'b0;
         Push = 0;
-        Pop = 0;
+        Sp = 2'b00;
 
-        // Test sequence
-        #10 Pcx = 12'hA; Push = 1; Pop = 0; // Push A
-        #10 Push = 0;                      // Disable push
-        #10 Pcx = 12'hB; Push = 1;         // Push B
-        #10 Push = 0;                      // Disable push
-        #10 Pcx = 12'hC; Push = 1;         // Push C
-        #10 Push = 0;                      // Disable push
-        #10 Pcx = 12'hD; Push = 1;         // Push D
-        #10 Push = 0;                      // Disable push
+        // Test case 1: Push data into Q0
+        #10 Pcx = 12'hA; Push = 1; Sp = 2'b00;
+        #10 Push = 0; // Disable push
 
-        #20 Pop = 1; Push = 0; // Pop to access Q2
-        #10 Pop = 0;           // Disable pop
-        #10 Pop = 1;           // Pop to access Q1
-        #10 Pop = 0;           // Disable pop
-        #10 Pop = 1;           // Pop to access Q0
-        #10 Pop = 0;           // Disable pop
-        
-        $display ("Simulation complete at time = %0d ps", $time);
-        #50 $finish; // End simulation
+        // Test case 2: Push data into Q1
+        #10 Pcx = 12'hB; Push = 1; Sp = 2'b01;
+        #10 Push = 0; // Disable push
+
+        // Test case 3: Push data into Q2
+        #10 Pcx = 12'hC; Push = 1; Sp = 2'b10;
+        #10 Push = 0; // Disable push
+
+        // Test case 4: Push data into Q3
+        #10 Pcx = 12'hD; Push = 1; Sp = 2'b11;
+        #10 Push = 0; // Disable push
+
+        // Test case 5: Read from Q0
+        #10 Sp = 2'b00;
+        #10 $display("Reading from Q0: stk0 = %h", stk0);
+
+        // Test case 6: Read from Q1
+        #10 Sp = 2'b01;
+        #10 $display("Reading from Q1: stk0 = %h", stk0);
+
+        // Test case 7: Read from Q2
+        #10 Sp = 2'b10;
+        #10 $display("Reading from Q2: stk0 = %h", stk0);
+
+        // Test case 8: Read from Q3
+        #10 Sp = 2'b11;
+        #10 $display("Reading from Q3: stk0 = %h", stk0);
+
+        $stop; // End simulation
     end
+
 endmodule
+
+
 ```
 ### GPT_Program_counter.v
 Prompt:
