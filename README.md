@@ -483,76 +483,95 @@ endmodule
 
 
 ```
-### GPT_Program_counter.v
+### GPT_Program_counter2.v
 Prompt:
 ![image](https://github.com/user-attachments/assets/d2009493-b769-48e1-94cf-a49bf367fce3)
+發現接腳是錯的
+<img width="962" alt="image" src="https://github.com/user-attachments/assets/8d1f647c-9b17-4955-9771-eb90eb14b2f0" />
 
-Result 1:
-直接pass
 
-![image](https://github.com/user-attachments/assets/f00252a4-b0d1-48f7-9c61-38ac07749dc0)
+Result :
+![image](https://github.com/user-attachments/assets/78f8ca16-8374-4c9b-9926-841be6097bb0)
+
 
 ```v
 module ProgramCounter2 (
-    input [11:0] Pcounter, // Current PC address input
-    input [11:0] A1,       // Jump address input
-    input Jump,            // Jump enable signal
-    output reg [11:0] PCadd // Program counter output
+    input wire clk,              // Clock signal
+    input wire jump,             // Jump enable
+    input wire ret,              // Return enable
+    input wire [11:0] jumber,    // Jump address
+    input wire [11:0] stk0,      // Stack data input
+    output reg [11:0] pc         // PC address output
 );
-    always @(*) begin
-        if (Jump)
-            PCadd = Pcounter + A1; // Jump to new address
+
+    always @(posedge clk) begin
+        if (ret)
+            pc <= stk0;          // Return to address from stack
+        else if (jump)
+            pc <= pc + jumber;   // Jump to specific address
         else
-            PCadd = Pcounter + 1;  // Increment PC by 1
+            pc <= pc + 1;        // Default increment
     end
 
-    `probe(Pcounter); // Probe current PC address input
-    `probe(A1);       // Probe jump address input
-    `probe(Jump);     // Probe jump enable signal
-    `probe(PCadd);    // Probe PC output
+    `probe(clk);   // Debug: clock signal
+    `probe(jump);  // Debug: jump enable
+    `probe(ret);   // Debug: return enable
+    `probe(jumber); // Debug: jump address input
+    `probe(stk0);  // Debug: stack input
+    `probe(pc);    // Debug: program counter output
 endmodule
 
 
 module top_module ();
-    reg [11:0] Pcounter; // Current PC address input
-    reg [11:0] A1;       // Jump address input
-    reg Jump;            // Jump enable signal
-    wire [11:0] PCadd;   // Program counter output
+    reg clk = 0;                  // Clock signal
+    reg jump = 0;                 // Jump enable
+    reg ret = 0;                  // Return enable
+    reg [11:0] jumber = 12'b0;    // Jump address input
+    reg [11:0] stk0 = 12'b0;      // Stack data input
+    wire [11:0] pc;               // PC address output
 
     // Instantiate ProgramCounter2
     ProgramCounter2 uut (
-        .Pcounter(Pcounter),
-        .A1(A1),
-        .Jump(Jump),
-        .PCadd(PCadd)
+        .clk(clk),
+        .jump(jump),
+        .ret(ret),
+        .jumber(jumber),
+        .stk0(stk0),
+        .pc(pc)
     );
 
-    reg clk = 0;
-    always #5 clk = ~clk; // Generate clock with period = 10
+    // Clock generation
+    always #5 clk = ~clk; // Clock period = 10 units
 
-    initial `probe_start; // Start the timing diagram
+    initial `probe_start; // Start probing for debugging
 
-    `probe(clk);        // Probe clock signal
-    `probe(Pcounter);   // Probe PC input
-    `probe(A1);         // Probe jump address
-    `probe(Jump);       // Probe jump signal
-    `probe(PCadd);      // Probe PC output
+    `probe(clk);          // Probe clock
+    `probe(jump);         // Probe jump
+    `probe(ret);          // Probe return
+    `probe(jumber);       // Probe jump address
+    `probe(stk0);         // Probe stack input
+    `probe(pc);           // Probe program counter output
 
+    // Test sequence
     initial begin
-        // Initialize signals
-        Pcounter = 12'b0;
-        A1 = 12'b0;
-        Jump = 0;
+        // Test case 1: Increment PC by 1
+        #10 jump = 0; ret = 0; jumber = 12'h000; stk0 = 12'h000;
+        #10 $display("PC = %h (should increment by 1)", pc);
 
-        // Test sequence
-        #10 Pcounter = 12'h001; Jump = 0; A1 = 12'h0; // Increment by 1
-        #10 Pcounter = 12'h002; Jump = 1; A1 = 12'h003; // Jump to PC + A1
-        #10 Pcounter = 12'h005; Jump = 0; A1 = 12'h0; // Increment by 1
-        #10 Pcounter = 12'h006; Jump = 1; A1 = 12'h002; // Jump to PC + A1
-        #10 Pcounter = 12'h008; Jump = 0; A1 = 12'h0; // Increment by 1
+        // Test case 2: Jump to PC + jumber
+        #10 jump = 1; ret = 0; jumber = 12'h003; 
+        #10 $display("PC = %h (should jump to PC + 3)", pc);
 
-        $display("Simulation complete at time = %0d ps", $time);
-        #50 $finish; // End simulation
+        // Test case 3: Increment PC by 1
+        #10 jump = 0; ret = 0; 
+        #10 $display("PC = %h (should increment by 1)", pc);
+
+        // Test case 4: Return to stk0 address
+        #10 jump = 0; ret = 1; stk0 = 12'h010; 
+        #10 $display("PC = %h (should return to stk0)", pc);
+
+        // End simulation
+        $finish;
     end
 endmodule
 ```
