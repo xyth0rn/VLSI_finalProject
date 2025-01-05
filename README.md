@@ -45,8 +45,8 @@ if clt == 1, the mux output (datab) is set to romx.
 
 also write a testbench for this
 ```
-
-Result code:
+Result 1:
+![image](https://github.com/user-attachments/assets/5bcb8709-9049-48e1-9a78-0ff4f29a8cbe)
 
 ### GPT_AddrCtrl.v
 #### Prompt
