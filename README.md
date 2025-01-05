@@ -64,8 +64,6 @@ also write a testbench for this
 #### Result:
 ![image](https://github.com/user-attachments/assets/70e72017-089a-4dc9-947d-a32f9df208c0)
 
-#### Simulation
-
 ### GPT_Stack_System.v
 
 #### Prompt 1:
@@ -506,7 +504,7 @@ endmodule
 ```
 ![image](https://github.com/user-attachments/assets/35335c3c-5956-429c-a812-5909f78065a6)
 
-### Reply 
+#### Reply 
 ```v
 module ControlSystem1 (
     input clk,
@@ -644,7 +642,7 @@ module ControlSystem2 (
 endmodule
 ```
 
-##### Result 1:
+#### Result 1:
 ![image](https://github.com/user-attachments/assets/14893b6c-cae4-4824-a972-18dc9da1a369)
 
 #### Prompt 2:
@@ -791,7 +789,7 @@ module top_module;
 
 endmodule
 ```
-##### Result 3:
+#### Result 3:
 ![image](https://github.com/user-attachments/assets/8ad503c6-aa76-49eb-83eb-0ae8c608e0d1)
 
 
@@ -810,10 +808,10 @@ Although this final project is intended for us to learn the verilog language thr
 ![image](https://github.com/user-attachments/assets/bda0a8ef-5e21-4308-b117-7cb30bf3334c)
 ![image](https://github.com/user-attachments/assets/b4986a3b-46bf-4083-8ce4-cb856f1cdee8)
 
-##### chatGPT testbench result 1:
+#### chatGPT testbench result 1:
 ![image](https://github.com/user-attachments/assets/2ba461fb-7786-404a-86e1-78ec4f186256)
 
-##### Revise prompt:
+#### Revise prompt:
 ```
 // IO DataReg_addr
 // Manages data exchange with external devices, storing the address or data being processed.
@@ -1063,9 +1061,9 @@ module DataReg_addr (
 endmodule
 ```
 
-##### chatGPT testbench result 2:
+#### chatGPT testbench result 2:
 ![image](https://github.com/user-attachments/assets/d45e9005-48ce-44d5-8f23-da5284ccf7ae)
-##### Revise prompt:
+#### Revise prompt:
 ```
 ./top_module.v:83: error: port add'' is not a port of uut.
 ./top_module.v:53: error: 'Da' is not a valid l-value for a procedural assignment.
@@ -1142,7 +1140,7 @@ module DataReg_addr (
 endmodule
 ```
 
-##### chatGPT testbench result 3:
+#### chatGPT testbench result 3:
 ![image](https://github.com/user-attachments/assets/b6c1bf00-9aa3-4779-884f-c8fd5ed6d9f4)
 
 
@@ -1150,9 +1148,9 @@ endmodule
 #### Submodule Structure
 ![image](https://github.com/user-attachments/assets/4d3005d7-e30c-47e8-9b2f-a0b6ac327611)
 
-##### chatGPT testbench Result 1:
+#### chatGPT testbench Result 1:
 ![image](https://github.com/user-attachments/assets/841ab3d8-1c0c-4527-9375-30684933cac7)
-##### Revise prompt:
+#### Revise prompt:
 ```
 module DataSelect (Da, Db, romx, clk, Ctl, dataa, datab);
 	input  [7:0] Da, Db, romx;
@@ -1256,7 +1254,7 @@ module DataSelect (
 
 endmodule
 ```
-##### chatGPT testbench Result 2:
+#### chatGPT testbench Result 2:
 ![image](https://github.com/user-attachments/assets/91d2ef59-5abe-4e19-a0c7-98d32beffc5f)
 
 
@@ -1271,7 +1269,7 @@ endmodule
 #### Submodule Truthtable
 ![image](https://github.com/user-attachments/assets/e030016d-eb71-4203-96dc-715705f3ea88)
 
-##### chatGPT testbench Result 1:
+#### chatGPT testbench Result 1:
 ![image](https://github.com/user-attachments/assets/7d11cedd-19a2-4b19-aad3-d5c6688afba5)
 
 #### Revise prompt: 
@@ -1305,7 +1303,7 @@ module AddrCtrl (D0, D1, clk, Ctl, addr);
 endmodule
 ```
 
-##### chatGPT testbench Result 2:
+#### chatGPT testbench Result 2:
 ![image](https://github.com/user-attachments/assets/e1c3f088-65e4-4cd2-a0a0-03860e25eba3)
 
 
@@ -1318,7 +1316,7 @@ endmodule
 ![image](https://github.com/user-attachments/assets/e43a7865-b468-4d7f-a301-030674cbbe2b)
 ![image](https://github.com/user-attachments/assets/28c4ba18-8160-40d5-bf98-420368589b29)
 
-##### chatGPT testbench Result
+#### chatGPT testbench Result
 ![image](https://github.com/user-attachments/assets/7a436c3b-1762-476d-87ad-94523dfc1647)
 
 
@@ -1383,7 +1381,7 @@ endmodule
 ```
 
 
-##### chatGPT testbench result:
+#### chatGPT testbench result:
 ![image](https://github.com/user-attachments/assets/de172171-0959-40fa-93c7-d85f8d4babe8)
 
 
@@ -1391,7 +1389,7 @@ endmodule
 ![image](https://github.com/user-attachments/assets/0b161ca9-4bd7-48dd-bacd-d6dc58314c33)
 ![image](https://github.com/user-attachments/assets/44dce9bc-f450-4326-ba50-874eef1af144)
 
-##### chatgpt testbench result
+#### chatgpt testbench result
 ![image](https://github.com/user-attachments/assets/58f608e0-cccd-498a-afec-a18301e0e082)
 
 
@@ -1443,7 +1441,7 @@ endmodule
 ### Control System 1
 ![image](https://github.com/user-attachments/assets/de9a851d-df08-4c1e-84ea-f02a8d3e8938)
 
-##### chatgpt testbench result 1:
+#### chatgpt testbench result 1:
 ![image](https://github.com/user-attachments/assets/311d92f0-f105-4ea0-9c67-11f85803d257)
 
 #### Revise prompt:
