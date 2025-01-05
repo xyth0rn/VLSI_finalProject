@@ -55,7 +55,12 @@ also write a testbench for this
 ### GPT_AddrCtrl.v
 
 #### Prompt
-<img width="973" alt="image" src="https://github.com/user-attachments/assets/177a2beb-9f6f-4d5b-a4b1-ae357cfd124c" />
+```
+依照這兩張的內容，幫我把address control 做出來 格式就是topmodule跟 內容
+```
+![image](https://github.com/user-attachments/assets/e1f37c99-f78b-454f-b0e5-67a95f82f017)
+![image](https://github.com/user-attachments/assets/5f8073ed-4387-451c-8d0e-9608dca9c312)
+
 
 #### Result:
 ![image](https://github.com/user-attachments/assets/70e72017-089a-4dc9-947d-a32f9df208c0)
@@ -64,10 +69,246 @@ also write a testbench for this
 
 ### GPT_Stack_System.v
 
-#### Prompt:
-![image](https://github.com/user-attachments/assets/01ccee98-897a-4906-a42d-e60fe70d77f3)
-![image](https://github.com/user-attachments/assets/20180472-0867-42ae-8d23-903098ddd7e0)
+#### Prompt 1:
+```
+這是什麼
+```
+![image](https://github.com/user-attachments/assets/8380317a-788f-4f6f-829b-995294ce6374)
 
+#### Reply1
+這是一個堆疊系統（Stack System）的設計描述，用於數位系統（特別是 CPU 或處理器設計）中處理資料的堆疊操作。堆疊是一種資料結構，遵循**後進先出（LIFO, Last In First Out）**的原則，常用於函數呼叫、資料暫存和控制流處理。
+
+以下是這段文字和表格的要點解析：
+
+1. 堆疊系統的基本結構
+
+	•	輸入端（Counter Input）: Pcx[11...0]
+堆疊系統的輸入資料，寬度為 12 bits。
+	•	時脈（Clock）: Clk
+控制操作的時脈信號。
+	•	堆疊指標（Stack Pointer, SP）: Sp[11...0]
+堆疊指標用來選擇當前操作的堆疊位址。由解碼器（Decoder）來控制指向具體的堆疊儲存器。
+	•	寄存器（Registers）: Q0[11...0], Q1[11...0], Q2[11...0], Q3[11...0]
+每個堆疊槽（stack slot）對應一個 12-bit 寄存器。
+	•	多工器輸出（Multiplexer Output）: stk0[11...0]
+多工器的輸出，根據堆疊指標選擇的資料。
+
+2. 堆疊系統的寫入（Write-In）真值表
+
+這個表描述了在不同控制信號下，數據如何被寫入堆疊系統的各個寄存器中。
+
+Data in (Pcx)	Clk	Push	Sp	Q0	Q1	Q2	Q3
+A	↑	1	0	A	unchange	unchange	unchange
+A	↑	1	1	unchange	A	unchange	unchange
+A	↑	1	2	unchange	unchange	A	unchange
+A	↑	1	3	unchange	unchange	unchange	A
+X	↑	0	X	unchange	unchange	unchange	unchange
+
+	•	A: 代表輸入資料。
+	•	↑: 表示時脈的上升沿。
+	•	Push = 1: 啟用堆疊的推入操作，依據 Sp 將資料寫入對應的寄存器（Q0、Q1、Q2 或 Q3）。
+	•	unchange: 表示寄存器值保持不變。
+	•	Push = 0: 表示沒有進行寫入操作。
+
+3. 堆疊系統的輸出真值表
+
+這個表描述了當堆疊指標（SP）變化時，多工器輸出的內容。
+
+Control (Sp)	Multiplexer Output (stk0)
+0	Q0
+1	Q1
+2	Q2
+3	Q3
+
+多工器根據堆疊指標 Sp，輸出對應的寄存器內容到 stk0。
+
+4. 堆疊指標（Stack Index）的真值表
+
+這個表描述了堆疊指標 Sp 在 Push 和 Pop 操作時如何變化。
+
+Clk	Pop	Push	Sp (Stack Index Output)
+↑	1	X	sp + 1
+↑	0	1	sp - 1
+↑	0	0	UC (Unchanged)
+
+	•	Pop = 1: 表示彈出操作，Sp 增加（向上移動）。
+	•	Push = 1: 表示推入操作，Sp 減少（向下移動）。
+	•	UC: 表示堆疊指標不變。
+
+5. 示例
+
+在設計時，這些表格幫助你明確如何根據控制信號操作堆疊。你可以用 Verilog 將這些行為實現。
+
+Verilog 代碼範例（簡單實現 Stack System）
+
+以下是基於上述表格的堆疊系統 Verilog 代碼範例：
+
+module StackSystem (
+    input [11:0] Pcx,     // Data input
+    input Clk,            // Clock
+    input Push,           // Push enable
+    input Pop,            // Pop enable
+    output reg [11:0] stk0 // Stack output
+);
+    reg [11:0] Q0, Q1, Q2, Q3; // Stack registers
+    reg [1:0] Sp;             // Stack pointer (2 bits to select 4 slots)
+
+    always @(posedge Clk) begin
+        if (Push) begin
+            case (Sp)
+                2'b00: Q0 <= Pcx;
+                2'b01: Q1 <= Pcx;
+                2'b10: Q2 <= Pcx;
+                2'b11: Q3 <= Pcx;
+            endcase
+            Sp <= Sp - 1; // Update stack pointer on push
+        end
+        else if (Pop) begin
+            Sp <= Sp + 1; // Update stack pointer on pop
+        end
+    end
+
+    // Multiplexer for stack output
+    always @(*) begin
+        case (Sp)
+            2'b00: stk0 = Q0;
+            2'b01: stk0 = Q1;
+            2'b10: stk0 = Q2;
+            2'b11: stk0 = Q3;
+        endcase
+    end
+endmodule
+
+說明：
+
+	•	推入操作（Push）：依據堆疊指標將資料寫入對應寄存器。
+	•	彈出操作（Pop）：更新堆疊指標以指向下一層。
+	•	多工器（Multiplexer）：輸出目前指標指向的堆疊槽內容。
+
+這樣的實現方式符合你提供的描述。如果需要進一步修改或解釋，可以繼續討論！
+
+#### Prompt 2:
+```
+可以根據他的輸入幫我生一個testbench 嗎
+```
+#### Reply
+以下是將之前的 Stack System 模組 和 Testbench 轉換成您所要求的格式，包含 probe 語法的完整程式碼。
+
+1. Stack System 模組
+
+module StackSystem (
+    input [11:0] Pcx,     // Data input
+    input Clk,            // Clock
+    input Push,           // Push enable
+    input Pop,            // Pop enable
+    output reg [11:0] stk0 // Stack output
+);
+    reg [11:0] Q0, Q1, Q2, Q3; // Stack registers
+    reg [1:0] Sp;             // Stack pointer (2 bits to select 4 slots)
+
+    always @(posedge Clk) begin
+        if (Push) begin
+            case (Sp)
+                2'b00: Q0 <= Pcx;
+                2'b01: Q1 <= Pcx;
+                2'b10: Q2 <= Pcx;
+                2'b11: Q3 <= Pcx;
+            endcase
+            Sp <= Sp - 1; // Update stack pointer on push
+        end
+        else if (Pop) begin
+            Sp <= Sp + 1; // Update stack pointer on pop
+        end
+    end
+
+    // Multiplexer for stack output
+    always @(*) begin
+        case (Sp)
+            2'b00: stk0 = Q0;
+            2'b01: stk0 = Q1;
+            2'b10: stk0 = Q2;
+            2'b11: stk0 = Q3;
+        endcase
+    end
+
+    `probe(Pcx);   // Probe input data
+    `probe(Clk);   // Probe clock
+    `probe(Push);  // Probe push signal
+    `probe(Pop);   // Probe pop signal
+    `probe(stk0);  // Probe stack output
+    `probe(Sp);    // Probe stack pointer
+    `probe(Q0);    // Probe stack register Q0
+    `probe(Q1);    // Probe stack register Q1
+    `probe(Q2);    // Probe stack register Q2
+    `probe(Q3);    // Probe stack register Q3
+endmodule
+
+2. Testbench (Top Module)
+
+module top_module ();
+    reg clk = 0; // Clock signal
+    always #5 clk = ~clk; // Create clock with period=10
+
+    initial `probe_start; // Start the timing diagram
+
+    `probe(clk); // Probe clock signal
+
+    // Testbench signals
+    reg [11:0] Pcx;
+    reg Push, Pop;
+    wire [11:0] stk0;
+
+    // Instantiate StackSystem
+    StackSystem uut (
+        .Pcx(Pcx),
+        .Clk(clk),
+        .Push(Push),
+        .Pop(Pop),
+        .stk0(stk0)
+    );
+
+    initial begin
+        // Initialize signals
+        Pcx = 12'b0;
+        Push = 0;
+        Pop = 0;
+
+        // Test sequence
+        #10 Pcx = 12'hA; Push = 1; Pop = 0; // Push A
+        #10 Push = 0;                      // Disable push
+        #10 Pcx = 12'hB; Push = 1;         // Push B
+        #10 Push = 0;                      // Disable push
+        #10 Pcx = 12'hC; Push = 1;         // Push C
+        #10 Push = 0;                      // Disable push
+        #10 Pcx = 12'hD; Push = 1;         // Push D
+        #10 Push = 0;                      // Disable push
+
+        #20 Pop = 1; Push = 0; // Pop to access Q2
+        #10 Pop = 0;           // Disable pop
+        #10 Pop = 1;           // Pop to access Q1
+        #10 Pop = 0;           // Disable pop
+        #10 Pop = 1;           // Pop to access Q0
+        #10 Pop = 0;           // Disable pop
+        
+        $display ("Simulation complete at time = %0d ps", $time);
+        #50 $finish; // End simulation
+    end
+endmodule
+
+說明：
+
+	1.	probe：
+	•	在 StackSystem 模組中，我們對所有關鍵信號（如 Pcx、Push、Pop、stk0 和寄存器 Q0-Q3）都加上了 probe，便於在波形圖中觀察。
+	2.	時脈（Clock）：
+	•	透過 always #5 生成一個時脈周期為 10 的方波。
+	3.	測試信號（Test Signals）：
+	•	利用 initial 區塊模擬 Push 和 Pop 操作，觀察堆疊的行為。
+	4.	訊息顯示（Display Messages）：
+	•	在測試過程中，利用 $display 來輸出模擬時間點。
+	5.	模擬停止（Finish Simulation）：
+	•	利用 #50 $finish 結束模擬。
+
+執行後，您可以在波形圖或模擬日誌中觀察堆疊系統的行為。
 #### Result: 
 ![image](https://github.com/user-attachments/assets/f3ec9e30-8667-4aec-b618-f587022e94bf)
 
@@ -88,14 +329,120 @@ also write a testbench for this
 ### GPT_Program_counter2.v
 
 #### Prompt:
-![image](https://github.com/user-attachments/assets/d2009493-b769-48e1-94cf-a49bf367fce3)
+```
+Program counter 1
+Jump enable: jump
+PC address input:Pcounter[11…….0]
+Jump address input:A1
+Adder output: PCadd[11…….0]
+ 
 
-發現接腳是錯的
+Jump enable	Input	Output
+jump	PCcounter	A1	PCadd
+0	PC	X	PC+1
+1	PC	B	PC+B
+Example 
+ 
+ 
+
+請用同樣的方式幫我生出progrma counter2
+```
+#### Reply
+以下是 Program Counter 2 的設計和 Verilog 實現，基於您提供的 Program Counter 1 的邏輯：
+
+1. Program Counter 2 模組
+
+module ProgramCounter2 (
+    input [11:0] Pcounter, // Current PC address input
+    input [11:0] A1,       // Jump address input
+    input Jump,            // Jump enable signal
+    output reg [11:0] PCadd // Program counter output
+);
+    always @(*) begin
+        if (Jump)
+            PCadd = Pcounter + A1; // Jump to new address
+        else
+            PCadd = Pcounter + 1;  // Increment PC by 1
+    end
+
+    `probe(Pcounter); // Probe current PC address input
+    `probe(A1);       // Probe jump address input
+    `probe(Jump);     // Probe jump enable signal
+    `probe(PCadd);    // Probe PC output
+endmodule
+
+2. Testbench (Top Module)
+
+module top_module ();
+    reg [11:0] Pcounter; // Current PC address input
+    reg [11:0] A1;       // Jump address input
+    reg Jump;            // Jump enable signal
+    wire [11:0] PCadd;   // Program counter output
+
+    // Instantiate ProgramCounter2
+    ProgramCounter2 uut (
+        .Pcounter(Pcounter),
+        .A1(A1),
+        .Jump(Jump),
+        .PCadd(PCadd)
+    );
+
+    reg clk = 0;
+    always #5 clk = ~clk; // Generate clock with period = 10
+
+    initial `probe_start; // Start the timing diagram
+
+    `probe(clk);        // Probe clock signal
+    `probe(Pcounter);   // Probe PC input
+    `probe(A1);         // Probe jump address
+    `probe(Jump);       // Probe jump signal
+    `probe(PCadd);      // Probe PC output
+
+    initial begin
+        // Initialize signals
+        Pcounter = 12'b0;
+        A1 = 12'b0;
+        Jump = 0;
+
+        // Test sequence
+        #10 Pcounter = 12'h001; Jump = 0; A1 = 12'h0; // Increment by 1
+        #10 Pcounter = 12'h002; Jump = 1; A1 = 12'h003; // Jump to PC + A1
+        #10 Pcounter = 12'h005; Jump = 0; A1 = 12'h0; // Increment by 1
+        #10 Pcounter = 12'h006; Jump = 1; A1 = 12'h002; // Jump to PC + A1
+        #10 Pcounter = 12'h008; Jump = 0; A1 = 12'h0; // Increment by 1
+
+        $display("Simulation complete at time = %0d ps", $time);
+        #50 $finish; // End simulation
+    end
+endmodule
+
+說明：
+
+	1.	ProgramCounter2 模組：
+	•	根據 Jump 信號決定是否執行跳躍：
+	•	Jump = 0：PC 只增加 1。
+	•	Jump = 1：PC 跳到 PC + A1。
+	2.	Testbench：
+	•	產生一系列測試用例，模擬不同的 Jump 和 A1 組合。
+	•	利用 probe 觀察所有關鍵信號。
+	3.	時脈生成（Clock Generation）：
+	•	使用 always #5 產生一個 10 時間單位的時脈信號，方便與其他模組同步測試。
+	4.	模擬結果驗證：
+	•	在波形圖中檢查 PCadd 的正確性，確保模組邏輯正確。
 
 <img width="962" alt="image" src="https://github.com/user-attachments/assets/8d1f647c-9b17-4955-9771-eb90eb14b2f0" />
 
 #### Result 1:
 ![image](https://github.com/user-attachments/assets/78f8ca16-8374-4c9b-9926-841be6097bb0)
+
+
+
+### GPT_Condition_Code_system.v
+#### Prompt:
+<img width="967" alt="image" src="https://github.com/user-attachments/assets/2ce38452-fbb2-4891-82ab-ec7963c425d6" />
+#### Result 1:
+![image](https://github.com/user-attachments/assets/a8c5f5c5-8236-4bde-a8dc-84c720530d84)
+
 
 ### GPT_Control_System_1.v
 #### Prompt:
