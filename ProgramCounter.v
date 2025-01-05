@@ -36,4 +36,5 @@ module ProgramCounter2 (clk, jump, ret, jumber, stk0, pc);
             pc = pc + jumber;
         else
             pc = pc + 1;
+    end
 endmodule
