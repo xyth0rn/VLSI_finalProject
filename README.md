@@ -28,7 +28,8 @@ adjust the verilog code so that the module has the structure and output truth ta
 ![image](https://github.com/user-attachments/assets/6cbf334f-69ed-4ae4-aa51-5a50ea2478e1)
 
 Result:
-![image](https://github.com/user-attachments/assets/cbde9a0b-d612-4579-885f-530cea7c0de5)
+![image](https://github.com/user-attachments/assets/ef5b06dd-5c38-41c3-ad43-016c8ce2322b)
+
 
 ### GPT_DataSelect.v
 
@@ -59,6 +60,7 @@ for a microcomputer architecture, write a verilog code address control system su
 and truth table of the following images. Also write a testbench GPT_AddrCtrl_tb.v for this submodule.
 ```
 ![image](https://github.com/user-attachments/assets/ca63657e-c050-4139-9080-ec6c48dd1f9a)
+![image](https://github.com/user-attachments/assets/70e72017-089a-4dc9-947d-a32f9df208c0)
 
 #### Result
 
@@ -121,6 +123,18 @@ Although this final project is intended for us to learn the verilog language thr
 ![image](https://github.com/user-attachments/assets/702e5f9b-450b-41b5-818d-c0930e6ae03b)
 ![image](https://github.com/user-attachments/assets/bda0a8ef-5e21-4308-b117-7cb30bf3334c)
 ![image](https://github.com/user-attachments/assets/b4986a3b-46bf-4083-8ce4-cb856f1cdee8)
+
+##### chatGPT testbench result 1:
+![image](https://github.com/user-attachments/assets/2ba461fb-7786-404a-86e1-78ec4f186256)
+
+##### Revise:
+<img width="950" alt="image" src="https://github.com/user-attachments/assets/ba1778ad-a543-40ff-acfb-4fa80ada0794" />
+##### chatGPT testbench result 2:
+![image](https://github.com/user-attachments/assets/d45e9005-48ce-44d5-8f23-da5284ccf7ae)
+##### Revise:
+<img width="970" alt="image" src="https://github.com/user-attachments/assets/904739c6-a732-49f6-9d1e-7583bf5e76d1" />
+##### chatGPT testbench result 3:
+![image](https://github.com/user-attachments/assets/b6c1bf00-9aa3-4779-884f-c8fd5ed6d9f4)
 
 
 ### DataSelect.v
