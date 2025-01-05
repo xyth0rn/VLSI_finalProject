@@ -12,7 +12,7 @@ module AddrCtrl (D0, D1, clk, Ctl, addr);
 	always @ (posedge clk) begin
 		case (Ctl)
 			0: ir1 = D0;
-			1: ir1 = D1;
+		1: ir1 = D1;
 		endcase
 	end
 
