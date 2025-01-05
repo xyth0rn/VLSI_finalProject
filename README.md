@@ -146,6 +146,7 @@ Although this final project is intended for us to learn the verilog language thr
 
 
 #### Submodule Truthtable
+
 ![image](https://github.com/user-attachments/assets/2e1bafbc-ab6e-4440-a034-9461f132b1c6)
 
 ### AddrCtrl.v
@@ -155,6 +156,14 @@ Although this final project is intended for us to learn the verilog language thr
 #### Submodule Truthtable
 ![image](https://github.com/user-attachments/assets/e030016d-eb71-4203-96dc-715705f3ea88)
 
+##### chatGPT testbench Result 1:
+![image](https://github.com/user-attachments/assets/7d11cedd-19a2-4b19-aad3-d5c6688afba5)
+
+##### Revise prompt
+<img width="979" alt="image" src="https://github.com/user-attachments/assets/c14c9107-bb35-403c-a4a9-7afe5f4fb62e" />
+
+##### chatGPT testbench Result 2:
+![image](https://github.com/user-attachments/assets/e1c3f088-65e4-4cd2-a0a0-03860e25eba3)
 
 
 ### StackSys_StackIndex.v
