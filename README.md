@@ -7,7 +7,6 @@ Full microcomputer CPU architecture diagram
 Since the structure and truth table of each submodule is given in the homework instruction file, I first discribed the overall function and input output signals to ChatGPT and then guide it to do further corrections by providing more detailed truth table to ensure accuracy. Because there is a daily limit of image uploads to the free version of ChatGPT, the truth table and submodule structure are sometimes described in words instead of the actual image from the homeword instruction.
 
 ### GPT_DataReg_Addr.v
-
 #### Prompt:
 ```
 For a microcomputer architecture, write a verilog code data register for address and also make corresponding testbench.
@@ -306,7 +305,7 @@ module top_module ();
 endmodule
 ```
 
-#### Result 1:
+#### Result:
 ![image](https://github.com/user-attachments/assets/cc1f5a5c-79bb-4793-8de5-1e5943c1065b)
 
 
@@ -393,12 +392,8 @@ module top_module ();
     end
 endmodule
 ```
-
-<img width="962" alt="image" src="https://github.com/user-attachments/assets/8d1f647c-9b17-4955-9771-eb90eb14b2f0" />
-
-#### Result 1:
+#### Result:
 ![image](https://github.com/user-attachments/assets/78f8ca16-8374-4c9b-9926-841be6097bb0)
-
 
 
 ### GPT_Condition_Code_system.v
@@ -500,7 +495,7 @@ module top_module;
 
 endmodule
 ```
-#### Result 1:
+#### Result:
 ![image](https://github.com/user-attachments/assets/a8c5f5c5-8236-4bde-a8dc-84c720530d84)
 
 
@@ -573,27 +568,229 @@ module ControlSystem1 (
 endmodule
 ```
 
-#### Result 1:
-直接pass
+#### Result:
 ![image](https://github.com/user-attachments/assets/beab3276-8460-4bd3-82c5-965012f67734)
 
 ### GPT_Control_System_2.v
-#### Prompt:
-<img width="1002" alt="image" src="https://github.com/user-attachments/assets/49cbc41e-25e1-421f-9ea9-67ab93ea08a5" />
+
+#### Prompt 1:
+```
+幫我根據照片寫出control system 2
+```
+![image](https://github.com/user-attachments/assets/74203ac7-e25f-48e9-a00b-8e24d6c564fc)
+![image](https://github.com/user-attachments/assets/51c70e0a-a703-46a2-94c9-0c50f0d35099)
+
+#### Reply 1:
+```v
+module ControlSystem2 (
+    input wire clk,            // Clock signal
+    input wire [3:0] contl,    // Instruction control
+    input wire tcnd,           // Condition control
+    input wire jump2,          // Jump control input
+    output reg ret1,           // Return to main program control
+    output reg push2,          // Push input enable
+    output reg wen2            // Write in register enable
+);
+
+    reg tempret, push1, wen1;  // Internal control signals
+    wire temp1;                // Intermediate signal
+    reg jump1;                 // Internal jump control
+
+    // Combinational logic for temp1
+    assign temp1 = jump1 & tcnd & jump2;
+
+    // Synchronous logic for jump2
+    always @(posedge clk) begin
+        jump2 <= temp1;
+    end
+
+    // Control logic
+    always @(posedge clk) begin
+        tempret = 1'b0;
+        wen1 = 1'b0;
+        push1 = 1'b0;
+        jump1 = 1'b0;
+
+        case (contl)
+            4'b0001: begin
+                tempret = jump2;
+                jump1 = jump2;
+            end
+            4'b0010: begin
+                jump1 = jump2;
+            end
+            4'b0011: begin
+                push1 = jump2;
+                jump1 = jump2;
+            end
+            4'b0100, 4'b0101, 4'b0110, 4'b0111: begin
+                jump1 = jump2;
+            end
+            default: begin
+                wen1 = ~jump2;
+            end
+        endcase
+    end
+
+    // Assign ret1
+    assign ret1 = tempret & jump2;
+
+    // Synchronous logic for push2 and wen2
+    always @(posedge clk) begin
+        push2 <= push1 & jump2;
+        wen2 <= wen1 & jump2;
+    end
+
+endmodule
+```
+
 ##### Result 1:
 ![image](https://github.com/user-attachments/assets/14893b6c-cae4-4824-a972-18dc9da1a369)
 
-##### Revise Prompt:
-直接把error 貼過去
-<img width="955" alt="image" src="https://github.com/user-attachments/assets/14d4f6f3-1145-453b-afa0-b4b27eeab2b0" />
+#### Prompt 2:
+```
+./top_module.v:20: error: 'jump2' is not a valid l-value for a procedural assignment.
+./top_module.v:5:      : 'jump2' is declared here as a wire.
+1 error(s) during elaboration.
+```
+#### Reply 2:
+```v
+module ControlSystem2 (
+    input wire clk,            // Clock signal
+    input wire [3:0] contl,    // Instruction control
+    input wire tcnd,           // Condition control
+    input wire jump2_in,       // Jump control input (renamed for clarity)
+    output wire ret1,          // Return to main program control
+    output reg push2,          // Push input enable
+    output reg wen2            // Write in register enable
+);
 
-##### Result 2:
+    reg tempret, push1, wen1;  // Internal control signals
+    wire temp1;                // Intermediate signal
+    reg jump1;                 // Internal jump control
+
+    // Combinational logic for temp1
+    assign temp1 = jump1 & tcnd & jump2_in;
+
+    // Assign jump2 as a wire based on temp1
+    wire jump2 = temp1;
+
+    // Control logic
+    always @(posedge clk) begin
+        tempret = 1'b0;
+        wen1 = 1'b0;
+        push1 = 1'b0;
+        jump1 = 1'b0;
+
+        case (contl)
+            4'b0001: begin
+                tempret = jump2;
+                jump1 = jump2;
+            end
+            4'b0010: begin
+                jump1 = jump2;
+            end
+            4'b0011: begin
+                push1 = jump2;
+                jump1 = jump2;
+            end
+            4'b0100, 4'b0101, 4'b0110, 4'b0111: begin
+                jump1 = jump2;
+            end
+            default: begin
+                wen1 = ~jump2;
+            end
+        endcase
+    end
+
+    // Assign ret1
+    assign ret1 = tempret & jump2;
+
+    // Synchronous logic for push2 and wen2
+    always @(posedge clk) begin
+        push2 <= push1 & jump2;
+        wen2 <= wen1 & jump2;
+    end
+
+endmodule
+```
+#### Result 2:
 ![image](https://github.com/user-attachments/assets/8936d770-1193-4962-b965-6e1730ab190c)
 
-##### Revise Prompt:
-直接把error 貼過去
-<img width="965" alt="image" src="https://github.com/user-attachments/assets/59687dc4-99a1-4b7c-9553-642f551788df" />
+#### Prompt 3:
+```
+./top_module.v:70: error: port jump2'' is not a port of uut.
+./top_module.v:70: warning: Instantiating module ControlSystem2 with dangling input port 4 (jump2_in) floating.
+1 error(s) during elaboration.
+```
+#### Reply 3:
+```v
+module top_module;
+    reg clk;                 // Test clock signal
+    reg [3:0] contl;         // Test instruction control
+    reg tcnd;                // Test condition control
+    reg jump2_in;            // Test jump control input
+    wire ret1;               // Return control output
+    wire push2;              // Push control output
+    wire wen2;               // Write enable output
 
+    // Instantiate the Control System 2 module
+    ControlSystem2 uut (
+        .clk(clk),
+        .contl(contl),
+        .tcnd(tcnd),
+        .jump2_in(jump2_in), // 修正這裡，與模組定義一致
+        .ret1(ret1),
+        .push2(push2),
+        .wen2(wen2)
+    );
+
+    // Clock generation
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk; // Clock period = 10 units
+    end
+
+    initial `probe_start; // Start the timing diagram
+
+    `probe(contl);        // Probe control signal
+    `probe(tcnd);         // Probe condition signal
+    `probe(jump2_in);     // Probe jump control input
+    `probe(ret1);         // Probe return control
+    `probe(push2);        // Probe push control
+    `probe(wen2);         // Probe write enable
+
+    // Test sequence
+    initial begin
+        // Initialize inputs
+        contl = 4'b0000; tcnd = 0; jump2_in = 0;
+
+        // Test case 1: Instruction = NOP
+        #10 contl = 4'b0000; jump2_in = 0;
+        #10 $display("Test 1: ret1 = %b, push2 = %b, wen2 = %b", ret1, push2, wen2);
+
+        // Test case 2: Instruction = RET
+        #10 contl = 4'b0001; jump2_in = 1;
+        #10 $display("Test 2: ret1 = %b, push2 = %b, wen2 = %b", ret1, push2, wen2);
+
+        // Test case 3: Instruction = JUMP
+        #10 contl = 4'b0010; jump2_in = 1;
+        #10 $display("Test 3: ret1 = %b, push2 = %b, wen2 = %b", ret1, push2, wen2);
+
+        // Test case 4: Instruction = CALL
+        #10 contl = 4'b0011; jump2_in = 1;
+        #10 $display("Test 4: ret1 = %b, push2 = %b, wen2 = %b", ret1, push2, wen2);
+
+        // Test case 5: Default case
+        #10 contl = 4'b1111; jump2_in = 0;
+        #10 $display("Test 5: ret1 = %b, push2 = %b, wen2 = %b", ret1, push2, wen2);
+
+        // End simulation
+        #20 $finish;
+    end
+
+endmodule
+```
 ##### Result 3:
 ![image](https://github.com/user-attachments/assets/8ad503c6-aa76-49eb-83eb-0ae8c608e0d1)
 
@@ -1201,6 +1398,44 @@ endmodule
 ### ConditionCodeSystem.v
 #### Submodule Structure
 ![image](https://github.com/user-attachments/assets/daa9612f-792e-4d0f-b824-b7b6819510a4)
+
+#### chatgpt testbench result 1:
+![image](https://github.com/user-attachments/assets/1a4d6c23-5f3c-4eb0-b097-ae0df4c8c6ff)
+
+#### Revise prompt:
+```
+./top_module.v:27: error: Unknown module type: ConditionCode
+2 error(s) during elaboration.
+*** These modules were missing:
+        ConditionCode referenced 1 times.
+***
+哪裡有錯
+```
+#### Reply:
+```v
+module ConditionCodeSystem (
+    input [3:0] cont,   // Instruction control line
+    input [8:0] aluo,   // ALU output (bit 8 is carry bit)
+    output reg tcnd     // Condition control output
+);
+
+    always @(*) begin
+        case (cont)
+            4'b0001: tcnd = 1'b1;                      // RET: tcnd = 1
+            4'b0010: tcnd = 1'b1;                      // JUMP: tcnd = 1
+            4'b0011: tcnd = 1'b1;                      // CALL: tcnd = 1
+            4'b0100: tcnd = (aluo == 9'b0) ? 1'b1 : 1'b0; // JZ: tcnd = 1 if ALU result is 0
+            4'b0101: tcnd = (aluo != 9'b0) ? 1'b1 : 1'b0; // JNZ: tcnd = 1 if ALU result is non-zero
+            4'b0110: tcnd = aluo[8];                   // JC: tcnd = 1 if carry flag is 1
+            4'b0111: tcnd = ~aluo[8];                  // JNC: tcnd = 1 if carry flag is 0
+            default: tcnd = 1'b0;                      // Default: tcnd = 0
+        endcase
+    end
+
+endmodule
+```
+#### chatgpt testbench result 2:
+![image](https://github.com/user-attachments/assets/e89facae-825d-40c4-8d54-32468b492671)
 
 #### Submodule Truthtable
 ![image](https://github.com/user-attachments/assets/36963ccf-81d4-406e-a5be-fc6c806c9c68)
