@@ -27,7 +27,7 @@ adjust the verilog code so that the module has the structure and output truth ta
 ![image](https://github.com/user-attachments/assets/ed085325-c34a-4ead-b840-c7883633a391)
 ![image](https://github.com/user-attachments/assets/6cbf334f-69ed-4ae4-aa51-5a50ea2478e1)
 
-Result:
+#### Result:
 ![image](https://github.com/user-attachments/assets/ef5b06dd-5c38-41c3-ad43-016c8ce2322b)
 
 
@@ -49,20 +49,16 @@ if clt == 1, the mux output (datab) is set to romx.
 also write a testbench for this
 ```
 
-#### Resul:
+#### Result:
 ![image](https://github.com/user-attachments/assets/5bcb8709-9049-48e1-9a78-0ff4f29a8cbe)
 
 ### GPT_AddrCtrl.v
 
 #### Prompt
-```
-for a microcomputer architecture, write a verilog code address control system submodule GPT_AddrCtrl.v that has the structure
-and truth table of the following images. Also write a testbench GPT_AddrCtrl_tb.v for this submodule.
-```
-![image](https://github.com/user-attachments/assets/ca63657e-c050-4139-9080-ec6c48dd1f9a)
-![image](https://github.com/user-attachments/assets/70e72017-089a-4dc9-947d-a32f9df208c0)
+<img width="973" alt="image" src="https://github.com/user-attachments/assets/177a2beb-9f6f-4d5b-a4b1-ae357cfd124c" />
 
-#### Result
+#### Result:
+![image](https://github.com/user-attachments/assets/70e72017-089a-4dc9-947d-a32f9df208c0)
 
 #### Simulation
 
@@ -78,7 +74,6 @@ and truth table of the following images. Also write a testbench GPT_AddrCtrl_tb.
 <img width="1030" alt="image" src="https://github.com/user-attachments/assets/d324c5b3-ea9f-439e-96a8-7f0acf6220b1" />
 
 ![image](https://github.com/user-attachments/assets/c842b443-a043-48ff-842c-8a153393075f)
-然後就對了
 
 
 ### GPT_Program_counter1.v
