@@ -7,7 +7,8 @@ Full microcomputer CPU architecture diagram
 Since the structure and truth table of each submodule is given in the homework instruction file, I first discribed the overall function and input output signals to ChatGPT and then guide it to do further corrections by providing more detailed truth table to ensure accuracy. Because there is a daily limit of image uploads to the free version of ChatGPT, the truth table and submodule structure are sometimes described in words instead of the actual image from the homeword instruction.
 
 ### GPT_DataReg_Addr.v
-Prompt:
+
+#### Prompt:
 ```
 For a microcomputer architecture, write a verilog code data register for address and also make corresponding testbench.
 The DataReg(address) should:
@@ -30,7 +31,8 @@ Result:
 ![image](https://github.com/user-attachments/assets/cbde9a0b-d612-4579-885f-530cea7c0de5)
 
 ### GPT_DataSelect.v
-Prompt:
+
+#### Prompt:
 ```
 for a microcomputer architecture, write a verilog code data selecter system submodule GPT_DataSelect.v that has the structure of:
 
@@ -45,10 +47,11 @@ if clt == 1, the mux output (datab) is set to romx.
 
 also write a testbench for this
 ```
-Result 1:
+#### Result 1:
 ![image](https://github.com/user-attachments/assets/5bcb8709-9049-48e1-9a78-0ff4f29a8cbe)
 
 ### GPT_AddrCtrl.v
+
 #### Prompt
 ```
 for a microcomputer architecture, write a verilog code address control system submodule GPT_AddrCtrl.v that has the structure
@@ -61,12 +64,12 @@ and truth table of the following images. Also write a testbench GPT_AddrCtrl_tb.
 #### Simulation
 
 ### GPT_Stack_System.v
-Prompt:
+
+#### Prompt:
 ![image](https://github.com/user-attachments/assets/01ccee98-897a-4906-a42d-e60fe70d77f3)
 ![image](https://github.com/user-attachments/assets/20180472-0867-42ae-8d23-903098ddd7e0)
 
-Result: 
-
+#### Result: 
 ![image](https://github.com/user-attachments/assets/f3ec9e30-8667-4aec-b618-f587022e94bf)
 
 <img width="1030" alt="image" src="https://github.com/user-attachments/assets/d324c5b3-ea9f-439e-96a8-7f0acf6220b1" />
@@ -179,7 +182,7 @@ chatgpt testbench result
 
 ### ControlSystem.v
 #### Submodule Structure
-Control System 1
+#### Control System 1
 ![image](https://github.com/user-attachments/assets/de9a851d-df08-4c1e-84ea-f02a8d3e8938)
 chatgpt testbench result 1:
 ![image](https://github.com/user-attachments/assets/311d92f0-f105-4ea0-9c67-11f85803d257)
@@ -189,7 +192,7 @@ chatgpt testbench result 2:
 ![image](https://github.com/user-attachments/assets/7d9aeb58-0732-48b7-bd65-6e5dc086bb6b)
 
 
-Control System 2
+#### Control System 2
 ![image](https://github.com/user-attachments/assets/62afad9f-77d8-4056-b95d-57006d3a9e7c)
 
 #### Submodule Truthtable
