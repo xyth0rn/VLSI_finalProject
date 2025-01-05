@@ -105,6 +105,28 @@ also write a testbench for this
 直接pass
 ![image](https://github.com/user-attachments/assets/beab3276-8460-4bd3-82c5-965012f67734)
 
+### GPT_Control_System_2.v
+#### Prompt:
+<img width="1002" alt="image" src="https://github.com/user-attachments/assets/49cbc41e-25e1-421f-9ea9-67ab93ea08a5" />
+##### Result 1:
+![image](https://github.com/user-attachments/assets/14893b6c-cae4-4824-a972-18dc9da1a369)
+
+##### Revise Prompt:
+直接把error 貼過去
+<img width="955" alt="image" src="https://github.com/user-attachments/assets/14d4f6f3-1145-453b-afa0-b4b27eeab2b0" />
+
+##### Result 2:
+![image](https://github.com/user-attachments/assets/8936d770-1193-4962-b965-6e1730ab190c)
+
+##### Revise Prompt:
+直接把error 貼過去
+<img width="965" alt="image" src="https://github.com/user-attachments/assets/59687dc4-99a1-4b7c-9553-642f551788df" />
+
+##### Result 3:
+![image](https://github.com/user-attachments/assets/8ad503c6-aa76-49eb-83eb-0ae8c608e0d1)
+
+
+
 ## Homemade
 Although this final project is intended for us to learn the verilog language through using ChatGPT, but I have learned a little bit of verilog previously during the course Digital Lab in the spring semester of year 2024, so I decided to take on the challenge of coding this final project on my own. For each submodule, I first inspected the structure to determine the IO wires, internal wires, and internal registers required. After initiallizing the submodule, I then write the functions according to the structure diagrams and the truthtable.
 > [!Note]
