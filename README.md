@@ -126,6 +126,15 @@ Although this final project is intended for us to learn the verilog language thr
 #### Submodule Structure
 ![image](https://github.com/user-attachments/assets/4d3005d7-e30c-47e8-9b2f-a0b6ac327611)
 
+##### chatGPT testbench Result 1:
+![image](https://github.com/user-attachments/assets/841ab3d8-1c0c-4527-9375-30684933cac7)
+##### Revise prompt:
+<img width="1007" alt="image" src="https://github.com/user-attachments/assets/c11ba746-3578-435c-8f21-c3475e642773" />
+
+##### chatGPT testbench Result 2:
+![image](https://github.com/user-attachments/assets/91d2ef59-5abe-4e19-a0c7-98d32beffc5f)
+
+
 #### Submodule Truthtable
 ![image](https://github.com/user-attachments/assets/2e1bafbc-ab6e-4440-a034-9461f132b1c6)
 
@@ -136,7 +145,6 @@ Although this final project is intended for us to learn the verilog language thr
 #### Submodule Truthtable
 ![image](https://github.com/user-attachments/assets/e030016d-eb71-4203-96dc-715705f3ea88)
 
-Result
 
 
 ### StackSys_StackIndex.v
@@ -148,28 +156,31 @@ Result
 ![image](https://github.com/user-attachments/assets/e43a7865-b468-4d7f-a301-030674cbbe2b)
 ![image](https://github.com/user-attachments/assets/28c4ba18-8160-40d5-bf98-420368589b29)
 
-chatGPT testbench Result
+##### chatGPT testbench Result
 ![image](https://github.com/user-attachments/assets/7a436c3b-1762-476d-87ad-94523dfc1647)
 
 ### ProgramCounter.v
+
 #### Submodule Structure
 ![image](https://github.com/user-attachments/assets/8509ff97-1c65-461d-88ef-2d4d9a51dd20)
 ![image](https://github.com/user-attachments/assets/ead66b93-d575-4b50-bb21-2b33dcc00a4f)
 
 #### Submodule Truthtable
-Program Counter 1
+
+#### Program Counter 1
 ![image](https://github.com/user-attachments/assets/8d568e4b-de02-4ac9-a3ee-a470b0d9e200)
 chatGPT revise:
 <img width="974" alt="image" src="https://github.com/user-attachments/assets/9a6d3f8f-3a75-4a37-958b-e509e2a08291" />
-chatGPT testbench result:
+
+##### chatGPT testbench result:
 ![image](https://github.com/user-attachments/assets/de172171-0959-40fa-93c7-d85f8d4babe8)
 
 
-Program Counter 2
+#### Program Counter 2
 ![image](https://github.com/user-attachments/assets/0b161ca9-4bd7-48dd-bacd-d6dc58314c33)
 ![image](https://github.com/user-attachments/assets/44dce9bc-f450-4326-ba50-874eef1af144)
 
-chatgpt testbench result
+##### chatgpt testbench result
 ![image](https://github.com/user-attachments/assets/58f608e0-cccd-498a-afec-a18301e0e082)
 
 
@@ -184,7 +195,8 @@ chatgpt testbench result
 #### Submodule Structure
 #### Control System 1
 ![image](https://github.com/user-attachments/assets/de9a851d-df08-4c1e-84ea-f02a8d3e8938)
-chatgpt testbench result 1:
+
+##### chatgpt testbench result 1:
 ![image](https://github.com/user-attachments/assets/311d92f0-f105-4ea0-9c67-11f85803d257)
 revise:
 <img width="975" alt="image" src="https://github.com/user-attachments/assets/b8bdca3c-2341-4113-81b3-1cecd52be320" />
