@@ -1,5 +1,8 @@
 # VLSI_finalProject
-## Project Overview
+NYCUEE 11251210 黃仲璿, 111511011 李知器
+## Abstract
+In this final project, we attempt to use chatGPT to generate verilog code for a the submodules of a simple microcomputer architecture as a practice to learn to write verilog code using AI. Prompt is given in the form of both words and images of the desired structure and truth table. Pure hand-coding was also tested as a comparison with the chatGPT generated code using the same set of generated testbench.
+
 Full microcomputer CPU architecture diagram
 
 ![image](https://github.com/user-attachments/assets/2d0383ae-9fd9-4da5-883c-339e9faa62c8)
@@ -2066,5 +2069,56 @@ endmodule
 ![image](https://github.com/user-attachments/assets/7d9aeb58-0732-48b7-bd65-6e5dc086bb6b)
 
 ### Control System 2
-![image](https://github.com/user-attachments/assets/62afad9f-77d8-4056-b95d-57006d3a9e7c)
+#### Source Code
+```v
+module ControlSystem2 (clk, cont, tcnd, jump2, ret1, push2, wen2);
+    input clk;
+    input [3:0] cont;   // instruction control
+    input tcnd;         // condition control
 
+    output reg jump2;       // jump control output to program counter
+    output ret1;        // return to main program control
+    output reg push2;       // push input enable
+    output reg wen2;        // write in register enable
+
+    reg jump1, tempret, push1, wen1;
+
+    assign temp1 = jump1 & tcnd & !jump2;
+
+    always @(posedge clk) begin
+        jump2 = temp1;
+    end
+
+    always @(posedge clk) begin
+        tempret = 1'b0; wen1 = 1'b0; push1 = 1'b0; jump1 = 1'b0;
+        case (cont) 
+            1: begin 
+                tempret = !jump2;
+                jump1 = !jump2;
+            end
+            2: tempret = !jump2;
+            3: begin
+                push1 = !jump2;
+                jump1 = !jump2;
+            end
+            4, 5, 6, 7: jump1 = !jump2;
+            8, 9, 10, 11, 12,13, 14, 15: wen1 = !jump2;
+        endcase
+    end
+
+    assign ret1 = tempret & !jump2;
+
+    always @(posedge clk) begin
+        push2 = push1 & !jump2;
+        wen2 = wen1 & jump2;
+    end
+
+endmodule
+```
+
+#### chatgpt testbench result:
+![image](https://github.com/user-attachments/assets/9191e003-01fa-4e0f-924e-236e8a863e2c)
+
+
+## Summary
+In this project, we tested verilog coding using chatGPT and understood how powerful AI-driven coding could be. Only a few minutes or even a seconds are required to write out a functioning submodule if appropriate prompt was given. Comparing to hand-coding, it becomes clear that using AI to write programs is easier and significantly more efficient. However, we cannot ignore the possibility that the accuracy of chatGPT's code is a result of the near 100 students enrolled in this course being tasked on the same final project, thus training the AI to be specifically good at writing verilog code for submodules of this microcomputer architecture. Overall, this project gave us an insight on how AI can be used to assist (or even lead) verilog coding, and how much more efficient it is to write code with the right prompts instead of coding eveything by hand.
