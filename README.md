@@ -38,7 +38,8 @@ adjust the verilog code so that the module has the structure and output truth ta
 
 #### Prompt:
 ```
-for a microcomputer architecture, write a verilog code data selecter system submodule GPT_DataSelect.v that has the structure of:
+for a microcomputer architecture, write a verilog code data selecter system submodule GPT_DataSelect.v
+that has the structure of:
 
 inputs: 8-bit Da, 8-bit Db, 8-bit romx, 1-bit ctl, clk
 outputs: 8-bit dataa, 8-bit datab
@@ -1598,7 +1599,8 @@ endmodule
 #### Source Code
 ```v
 // stack system
-// stack is used for storing return addresses and temporary data. Stack Index tracks the top of the stack, enabling push and pop operations.
+// stack is used for storing return addresses and temporary data.
+Stack Index tracks the top of the stack, enabling push and pop operations.
 module StackSys (pcx, clk, push, sp, stk0);
     input [11:0] pcx;
     input clk, push;    // push is decoder enable
