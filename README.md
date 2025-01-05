@@ -483,6 +483,86 @@ endmodule
 
 
 ```
+### GPT_Program_counter1.v
+Prompt
+<img width="557" alt="image" src="https://github.com/user-attachments/assets/171bb723-1f91-4cf6-b4c1-ceddd37ee8e3" />
+Result:
+![image](https://github.com/user-attachments/assets/cc1f5a5c-79bb-4793-8de5-1e5943c1065b)
+```v
+module ProgramCounter1 (
+    input wire [11:0] Pcounter,  // Current PC address input
+    input wire [11:0] A1,        // Jump address input
+    input wire jump,             // Jump enable
+    output reg [11:0] PCadd      // Program counter output
+);
+
+    always @(*) begin
+        if (jump)
+            PCadd = Pcounter + A1;  // Jump to PC + A1
+        else
+            PCadd = Pcounter + 1;   // Increment PC by 1
+    end
+
+    `probe(Pcounter);  // Debug: Probe Pcounter
+    `probe(A1);        // Debug: Probe A1
+    `probe(jump);      // Debug: Probe jump signal
+    `probe(PCadd);     // Debug: Probe PCadd (output)
+
+endmodule
+
+module top_module ();
+
+    // Testbench signals
+    reg [11:0] Pcounter; // Current PC address input
+    reg [11:0] A1;       // Jump address input
+    reg jump;            // Jump enable signal
+    wire [11:0] PCadd;   // Program counter output
+
+    // Instantiate ProgramCounter1
+    ProgramCounter1 uut (
+        .Pcounter(Pcounter),
+        .A1(A1),
+        .jump(jump),
+        .PCadd(PCadd)
+    );
+
+    // Clock-like signal for visualization (optional)
+    reg clk = 0;
+    always #5 clk = ~clk; // Clock period = 10 units
+
+    initial `probe_start; // Start probing for debugging
+
+    `probe(clk);          // Probe clock signal (for reference)
+    `probe(Pcounter);     // Probe PC input
+    `probe(A1);           // Probe jump address
+    `probe(jump);         // Probe jump signal
+    `probe(PCadd);        // Probe PC output
+
+    // Test sequence
+    initial begin
+        // Test case 1: Increment PC by 1
+        Pcounter = 12'h001; A1 = 12'h000; jump = 0;
+        #10 $display("Test 1: jump=0, PCadd=%h (should be PC+1)", PCadd);
+
+        // Test case 2: Jump to PC + A1
+        Pcounter = 12'h002; A1 = 12'h003; jump = 1;
+        #10 $display("Test 2: jump=1, PCadd=%h (should be PC+A1)", PCadd);
+
+        // Test case 3: Increment PC by 1 again
+        Pcounter = 12'h005; A1 = 12'h000; jump = 0;
+        #10 $display("Test 3: jump=0, PCadd=%h (should be PC+1)", PCadd);
+
+        // Test case 4: Another jump to PC + A1
+        Pcounter = 12'h008; A1 = 12'h002; jump = 1;
+        #10 $display("Test 4: jump=1, PCadd=%h (should be PC+A1)", PCadd);
+
+        // End simulation
+        $finish;
+    end
+endmodule
+```
+
+
 ### GPT_Program_counter2.v
 Prompt:
 ![image](https://github.com/user-attachments/assets/d2009493-b769-48e1-94cf-a49bf367fce3)
@@ -836,10 +916,19 @@ endmodule
 #### Submodule Truthtable
 Program Counter 1
 ![image](https://github.com/user-attachments/assets/8d568e4b-de02-4ac9-a3ee-a470b0d9e200)
+chatGPT revise:
+<img width="974" alt="image" src="https://github.com/user-attachments/assets/9a6d3f8f-3a75-4a37-958b-e509e2a08291" />
+chatGPT testbench result:
+![image](https://github.com/user-attachments/assets/de172171-0959-40fa-93c7-d85f8d4babe8)
+
 
 Program Counter 2
 ![image](https://github.com/user-attachments/assets/0b161ca9-4bd7-48dd-bacd-d6dc58314c33)
 ![image](https://github.com/user-attachments/assets/44dce9bc-f450-4326-ba50-874eef1af144)
+
+chatgpt testbench result
+![image](https://github.com/user-attachments/assets/58f608e0-cccd-498a-afec-a18301e0e082)
+
 
 #### Source Code
 ```v
@@ -918,6 +1007,13 @@ endmodule
 #### Submodule Structure
 Control System 1
 ![image](https://github.com/user-attachments/assets/de9a851d-df08-4c1e-84ea-f02a8d3e8938)
+chatgpt testbench result 1:
+![image](https://github.com/user-attachments/assets/311d92f0-f105-4ea0-9c67-11f85803d257)
+revise:
+<img width="975" alt="image" src="https://github.com/user-attachments/assets/b8bdca3c-2341-4113-81b3-1cecd52be320" />
+chatgpt testbench result 2:
+![image](https://github.com/user-attachments/assets/7d9aeb58-0732-48b7-bd65-6e5dc086bb6b)
+
 
 Control System 2
 ![image](https://github.com/user-attachments/assets/62afad9f-77d8-4056-b95d-57006d3a9e7c)
