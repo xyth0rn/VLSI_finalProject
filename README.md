@@ -222,10 +222,6 @@ endmodule
 ```
 
 #### Result: 
-![image](https://github.com/user-attachments/assets/f3ec9e30-8667-4aec-b618-f587022e94bf)
-
-<img width="1030" alt="image" src="https://github.com/user-attachments/assets/d324c5b3-ea9f-439e-96a8-7f0acf6220b1" />
-
 ![image](https://github.com/user-attachments/assets/c842b443-a043-48ff-842c-8a153393075f)
 
 
